@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Matthew Halden — Terminal Blog</title>
     <style>
-      html,body{height:100%;margin:0}
-      body{display:flex;align-items:center;justify-content:center;background:#071022}
-      .wrap{max-width:940px;width:96%;padding:18px}
-      svg{width:100%;height:auto;display:block}
+      *{box-sizing:border-box}
+      html,body{height:100%;margin:0;padding:0}
+      body{display:flex;flex-direction:column;background:#071022;color:#d0e7ff;font-family:"IBM Plex Mono","Fira Code","SFMono-Regular",Menlo,Consolas,monospace;overflow:hidden}
+      .terminal-card{flex:0 1 auto;display:flex;justify-content:center;align-items:center;padding:20px;max-height:65vh;overflow:hidden}
+      .terminal-card svg{width:100%;max-width:900px;height:auto}
+      .terminal-input{flex:1;display:flex;flex-direction:column;background:#0a162d;border-top:2px solid #1e3a8a;padding:16px;overflow:auto;font-size:14px}
+      .output{flex:1;overflow-y:auto;margin-bottom:12px;white-space:pre-wrap;word-wrap:break-word}
+      .prompt{display:flex;align-items:center;gap:8px}
+      .prompt-text{color:#7dd3fc}
+      input{background:transparent;border:none;color:#d0e7ff;font-family:inherit;font-size:14px;outline:none;flex:1;padding:0;caret-color:#7dd3fc}
+      input::placeholder{color:#1e3a8a}
+      .cursor{display:inline-block;width:10px;height:18px;background:#7dd3fc;animation:blink 1s infinite}
+      @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
     </style>
   </head>
   <body>
-    <div class="wrap">
+    <div class="terminal-card">
       <!-- Embedded SVG from README.md -->
       <div align="center">
         <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
@@ -100,16 +109,60 @@
 
           <text x="68" y="474" class="section" opacity="0.8">CTRL+C to exit · CTRL+N to keep exploring · rendered with SVG + CSS animation</text>
         </svg>
-      </div>
-
-      <section style="color:#d0e7ff;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin-top:18px">
-        <h3 style="color:#7dd3fc">What you'll find here</h3>
-        <ul>
-          <li>Code experiments, web toys, and explorations into calm productivity.</li>
-          <li>Notes about design systems, developer experience, and learning in public.</li>
-          <li>Retro terminal vibes — tweak the SVG in `README.md` to make it yours.</li>
-        </ul>
-      </section>
     </div>
+
+    <div class="terminal-input">
+      <div class="output" id="output"></div>
+      <div class="prompt">
+        <span class="prompt-text">matthew@matty:~$</span>
+        <input id="cmdInput" type="text" placeholder="type a command..." autofocus />
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const cmdInput = document.getElementById("cmdInput");
+
+      // Command responses
+      const commands = {
+        whoami: "Matthew Halden — building delightful developer experiences.",
+        uptime: "Calgary, AB · fueled by espresso & curiosity · shipping small wins daily.",
+        focus: "Designing humane tooling · modern web stacks · interactive docs · playful UX.",
+        stack: "TypeScript / React · Next.js · Node · CSS-in-JS · d3 · Go APIs · cloud bits.",
+        reading: "Pattern Language · Shape Up · Designing Data-Intensive Apps · Atomic Habits.",
+        "open-tabs": "Tactile web toys · calm productivity · meaningful docs · better onboarding.",
+        now: "crafting a retro-coded blog feel right inside this website — stay awhile.",
+        help: "Available commands: whoami, uptime, focus, stack, reading, open-tabs, now, clear, help",
+        clear: null,
+        "": ""
+      };
+
+      cmdInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const cmd = cmdInput.value.trim().toLowerCase();
+          cmdInput.value = "";
+
+          if (cmd) {
+            output.textContent += `$ ${cmd}\n`;
+          }
+
+          if (cmd === "clear") {
+            output.textContent = "";
+          } else if (cmd in commands) {
+            const response = commands[cmd];
+            if (response) {
+              output.textContent += response + "\n";
+            }
+          } else if (cmd) {
+            output.textContent += `command not found: ${cmd}\n`;
+          }
+
+          output.scrollTop = output.scrollHeight;
+        }
+      });
+
+      // Show welcome message
+      output.textContent = "Welcome to matty's terminal — type 'help' for commands.\n\n";
+    </script>
   </body>
 </html>
