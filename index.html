@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Matthew Halden — Terminal Blog</title>
+    <style>
+      *{box-sizing:border-box}
+      html,body{height:100%;margin:0;padding:0}
+      body{display:flex;flex-direction:column;background:#071022;color:#d0e7ff;font-family:"IBM Plex Mono","Fira Code","SFMono-Regular",Menlo,Consolas,monospace;overflow:hidden}
+      .terminal-card{flex:0 1 auto;display:flex;justify-content:center;align-items:center;padding:20px;max-height:65vh;overflow:hidden}
+      .terminal-card svg{width:100%;max-width:900px;height:auto}
+      .terminal-input{flex:1;display:flex;flex-direction:column;background:#0a162d;border-top:2px solid #1e3a8a;padding:16px;overflow:auto;font-size:14px}
+      .output{flex:1;overflow-y:auto;margin-bottom:12px;white-space:pre-wrap;word-wrap:break-word}
+      .prompt{display:flex;align-items:center;gap:8px}
+      .prompt-text{color:#7dd3fc}
+      input{background:transparent;border:none;color:#d0e7ff;font-family:inherit;font-size:14px;outline:none;flex:1;padding:0;caret-color:#7dd3fc}
+      input::placeholder{color:#1e3a8a}
+      .cursor{display:inline-block;width:10px;height:18px;background:#7dd3fc;animation:blink 1s infinite}
+      @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+    </style>
+  </head>
+  <body>
+    <div class="terminal-card">
+      <!-- Embedded SVG from README.md -->
+      <div align="center">
+        <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+          <title id="title">Matthew Halden // Terminal Blog</title>
+          <desc id="desc">A retro terminal-inspired card with animated typing and blinking cursor.</desc>
+          <defs>
+            <linearGradient id="matrix" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0f172a" />
+              <stop offset="50%" stop-color="#0b1323" />
+              <stop offset="100%" stop-color="#0a0f1d" />
+            </linearGradient>
+            <pattern id="grid" width="22" height="22" patternUnits="userSpaceOnUse">
+              <path d="M 22 0 L 0 0 0 22" fill="none" stroke="#0d213f" stroke-width="1" opacity="0.5" />
+            </pattern>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <style>
+              @keyframes headerPulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+              @keyframes faintGlow { from { opacity: 0.15; } to { opacity: 0.35; } }
+              @keyframes cursorBlink { 0%, 45% { opacity: 1; } 50%, 100% { opacity: 0; } }
+              text { font-family: "IBM Plex Mono", "Fira Code", "SFMono-Regular", Menlo, Consolas, monospace; }
+              .title { fill: #8ef6ff; font-size: 22px; letter-spacing: 1.6px; }
+              .section { fill: #7dd3fc; font-size: 14px; }
+              .body { fill: #d0e7ff; font-size: 15px; }
+            </style>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="520" fill="url(#matrix)" />
+          <rect x="0" y="0" width="900" height="520" fill="url(#grid)" opacity="0.28">
+            <animate attributeName="opacity" values="0.18;0.28;0.18" dur="8s" repeatCount="indefinite" />
+          </rect>
+          <rect x="28" y="28" width="844" height="464" rx="18" ry="18" fill="#0a162d" stroke="#1e3a8a" stroke-width="2.2" filter="url(#glow)" />
+
+          <rect x="52" y="52" width="796" height="40" rx="9" ry="9" fill="#0f203f" stroke="#1b3b73" />
+          <circle cx="76" cy="72" r="8" fill="#10b981" opacity="0.9">
+            <animate attributeName="opacity" values="0.55;1;0.55" dur="3s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="102" cy="72" r="8" fill="#f59e0b" opacity="0.9">
+            <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="128" cy="72" r="8" fill="#ef4444" opacity="0.9">
+            <animate attributeName="opacity" values="0.55;1;0.55" dur="2.1s" repeatCount="indefinite" />
+          </circle>
+          <text x="156" y="76" class="section" dominant-baseline="middle">matthew@earth:~</text>
+
+          <g transform="translate(68,120)">
+            <text x="0" y="0" class="title">// TERMINAL BLOG — rendered in GH Markdown</text>
+            <text x="0" y="34" class="section">$ whoami</text>
+            <text x="110" y="34" class="body">Matthew Halden — building delightful developer experiences &amp; friendly interfaces.</text>
+
+            <text x="0" y="68" class="section">$ uptime</text>
+            <text x="110" y="68" class="body">Calgary, AB · fueled by espresso &amp; curiosity · shipping small wins daily.</text>
+
+            <text x="0" y="102" class="section">$ focus</text>
+            <text x="110" y="102" class="body">Designing humane tooling · modern web stacks · interactive docs · playful UX.</text>
+
+            <text x="0" y="136" class="section">$ stack</text>
+            <text x="110" y="136" class="body">TypeScript / React · Next.js · Node · CSS-in-JS · d3 · Go APIs · cloud bits.</text>
+
+            <text x="0" y="170" class="section">$ reading</text>
+            <text x="110" y="170" class="body">Pattern Language · Shape Up · Designing Data-Intensive Apps · Atomic Habits.</text>
+
+            <text x="0" y="204" class="section">$ open-tabs</text>
+            <text x="110" y="204" class="body">Tactile web toys · calm productivity · meaningful docs · better onboarding.</text>
+
+            <clipPath id="typing-mask">
+              <rect x="0" y="0" width="620" height="28">
+                <animate attributeName="width" values="0;620;620;0" keyTimes="0;0.65;0.82;1" dur="7.5s" repeatCount="indefinite" />
+              </rect>
+            </clipPath>
+            <text x="0" y="248" class="section">$ now</text>
+            <g transform="translate(110,248)">
+              <text class="body" clip-path="url(#typing-mask)">crafting a retro-coded blog feel right inside this README — stay awhile.</text>
+              <rect x="4" y="-16" width="12" height="22" fill="#7dd3fc" opacity="0.95">
+                <animate attributeName="x" values="4;616;616;4" keyTimes="0;0.65;0.82;1" dur="7.5s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="1;0;1" dur="1.4s" repeatCount="indefinite" />
+              </rect>
+            </g>
+          </g>
+
+          <text x="68" y="474" class="section" opacity="0.8">CTRL+C to exit · CTRL+N to keep exploring · rendered with SVG + CSS animation</text>
+        </svg>
+    </div>
+
+    <div class="terminal-input">
+      <div class="output" id="output"></div>
+      <div class="prompt">
+        <span class="prompt-text">matthew@matty:~$</span>
+        <input id="cmdInput" type="text" placeholder="type a command..." autofocus />
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const cmdInput = document.getElementById("cmdInput");
+
+      // Command responses
+      const commands = {
+        whoami: "Matthew Halden — building delightful developer experiences.",
+        uptime: "Calgary, AB · fueled by espresso & curiosity · shipping small wins daily.",
+        focus: "Designing humane tooling · modern web stacks · interactive docs · playful UX.",
+        stack: "TypeScript / React · Next.js · Node · CSS-in-JS · d3 · Go APIs · cloud bits.",
+        reading: "Pattern Language · Shape Up · Designing Data-Intensive Apps · Atomic Habits.",
+        "open-tabs": "Tactile web toys · calm productivity · meaningful docs · better onboarding.",
+        now: "crafting a retro-coded blog feel right inside this website — stay awhile.",
+        help: "Available commands: whoami, uptime, focus, stack, reading, open-tabs, now, clear, help",
+        clear: null,
+        "": ""
+      };
+
+      cmdInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const cmd = cmdInput.value.trim().toLowerCase();
+          cmdInput.value = "";
+
+          if (cmd) {
+            output.textContent += `$ ${cmd}\n`;
+          }
+
+          if (cmd === "clear") {
+            output.textContent = "";
+          } else if (cmd in commands) {
+            const response = commands[cmd];
+            if (response) {
+              output.textContent += response + "\n";
+            }
+          } else if (cmd) {
+            output.textContent += `command not found: ${cmd}\n`;
+          }
+
+          output.scrollTop = output.scrollHeight;
+        }
+      });
+
+      // Show welcome message
+      output.textContent = "Welcome to matty's terminal — type 'help' for commands.\n\n";
+    </script>
+  </body>
+</html>
